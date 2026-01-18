@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://810laoev5g7b"]
+
+[ext_resource type="Script" uid="uid://jkahit6enhky" path="res://global/ui_manager.gd" id="1_8048h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fv8x1"]
+bg_color = Color(0, 0, 0, 0.25490198)
+
+[node name="UiManager" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_8048h")
+
+[node name="DarkBackground" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fv8x1")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="gui_input" from="DarkBackground" to="." method="_on_dark_background_gui_input"]
