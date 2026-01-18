@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Project Mega"
-run/main_scene="uid://bjb787qugqq2h"
+run/main_scene="uid://d3b7ma3isicp4"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
