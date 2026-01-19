@@ -50,11 +50,13 @@ func upload_export_file(file_path: String, json_path: String = ""):
 
 	var target_path : String = json_path.split(EXPORT_PATH + "/")[1]
 	target_path = target_path.rsplit("/", false, 1)[0]
-	prints("Target path", target_path)
+	
+	var upload_file_name := json_path.get_file().get_basename() + "." + file_path.get_extension()
+	prints("Target path", target_path.path_join(upload_file_name))
 	
 	var headers := [
 		"Content-Type: application/" + ( "json" if file_path.ends_with("json") else "octet-stream" ),
-		"X-Filename: " + file_path.get_file(),
+		"X-Filename: " + upload_file_name,
 		"X-Target: " + target_path
 	]
 
