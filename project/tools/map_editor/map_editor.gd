@@ -4,7 +4,7 @@ extends Node2D
 const EXPORT_PATH = "export"
 const TERRAIN_TILES_PATH = "terrain_tiles"
 
-@onready var http: HTTPRequest = $HTTPRequest
+@export var upload_request_scene: PackedScene
 
 var new_tiles: Array[BaseTileDefinition]
 
@@ -53,7 +53,7 @@ func upload_export_file(file_path: String, json_path: String = ""):
 	prints("Target path", target_path)
 	
 	var headers := [
-		"Content-Type: application/" + "json" if file_path.ends_with("json") else "octet-stream",
+		"Content-Type: application/" + ( "json" if file_path.ends_with("json") else "octet-stream" ),
 		"X-Filename: " + file_path.get_file(),
 		"X-Target: " + target_path
 	]
@@ -68,6 +68,8 @@ func upload_export_file(file_path: String, json_path: String = ""):
 
 	var bytes := FileAccess.get_file_as_bytes(file_path)
 
+	var http: UploadHTTPRequest = upload_request_scene.instantiate()
+	add_child(http)
 	var error = http.request_raw("http://onehundred.dev:8000/upload", headers, HTTPClient.METHOD_POST, bytes)
 	if error != OK:
 		push_error("Http Request error ", error)
@@ -75,8 +77,3 @@ func upload_export_file(file_path: String, json_path: String = ""):
 
 	if texture_path:
 		upload_export_file(texture_path, file_path)
-
-
-func _on_http_request_request_completed(result: int, _response_code: int, _headers: PackedStringArray, _body: PackedByteArray) -> void:
-	if result != HTTPRequest.RESULT_SUCCESS:
-		push_error("HTTP request failed ", result)

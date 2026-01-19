@@ -1,19 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3b7ma3isicp4"]
+[gd_scene load_steps=5 format=3 uid="uid://d3b7ma3isicp4"]
 
 [ext_resource type="Script" uid="uid://1bhrcuknpsip" path="res://tools/map_editor/map_editor.gd" id="1_5yjnp"]
 [ext_resource type="TileSet" uid="uid://ccn1o4p860i17" path="res://map/terrain_tile_set.tres" id="1_yhjo0"]
 [ext_resource type="PackedScene" uid="uid://diqbb31vnnkfs" path="res://tools/map_editor/map_editor_ui.tscn" id="3_mgawg"]
+[ext_resource type="PackedScene" uid="uid://betfv7ehdpgxh" path="res://tools/map_editor/upload_http_request.tscn" id="4_mgawg"]
 
 [node name="MapEditor" type="Node2D"]
 script = ExtResource("1_5yjnp")
+upload_request_scene = ExtResource("4_mgawg")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = ExtResource("1_yhjo0")
 
 [node name="MapEditorUI" parent="." instance=ExtResource("3_mgawg")]
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
-timeout = 10.0
-
 [connection signal="upload_files" from="MapEditorUI" to="." method="upload_export_dir"]
-[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

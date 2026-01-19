@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://betfv7ehdpgxh"]
+
+[ext_resource type="Script" uid="uid://bnjssyt3kevho" path="res://tools/map_editor/upload_http_request.gd" id="1_utcmi"]
+
+[node name="UploadHTTPRequest" type="HTTPRequest"]
+timeout = 10.0
+script = ExtResource("1_utcmi")
+
+[connection signal="request_completed" from="." to="." method="_on_http_request_request_completed"]
