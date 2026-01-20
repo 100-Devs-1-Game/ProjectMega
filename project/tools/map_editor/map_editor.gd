@@ -73,7 +73,7 @@ func upload_export_file(file_path: String, json_path: String = ""):
 	add_child(http)
 	
 	# use IP to prevent CORS redirection issues in browser builds
-	var error = http.request_raw("http://212.227.166.210:8000/upload/", headers, HTTPClient.METHOD_POST, bytes)
+	var error = http.request_raw("http://212.227.166.210:8000/upload", headers, HTTPClient.METHOD_POST, bytes)
 	if error != OK:
 		push_error("Http Request error ", error)
 		return
