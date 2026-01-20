@@ -33,30 +33,41 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 10
+columns = 2
 
-[node name="Name" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Type" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Type"
+
+[node name="TypeOption" type="OptionButton" parent="MarginContainer/VBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+selected = 0
+item_count = 1
+popup/item_0/text = "Terrain"
+popup/item_0/id = 0
+
+[node name="Name" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Name"
 
-[node name="InputName" type="LineEdit" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="InputName" type="LineEdit" parent="MarginContainer/VBoxContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 placeholder_text = "tile_name"
 max_length = 18
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="TileTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="TileTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="PanelContainer" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/TileTexture"]
+[node name="PanelContainer" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer/GridContainer/TileTexture"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -65,7 +76,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_du5dt")
 
-[node name="LoadImage" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="LoadImage" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Load Image"
@@ -78,6 +89,7 @@ text = "Create"
 
 [node name="FileDialog" parent="." instance=ExtResource("2_oivoo")]
 
-[connection signal="text_changed" from="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/InputName" to="." method="_on_input_name_text_changed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/LoadImage" to="." method="_on_load_image_pressed"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/VBoxContainer/GridContainer/TypeOption" to="." method="_on_type_option_item_selected"]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/VBoxContainer/GridContainer/InputName" to="." method="_on_input_name_text_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/GridContainer/LoadImage" to="." method="_on_load_image_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Create" to="." method="_on_create_pressed"]

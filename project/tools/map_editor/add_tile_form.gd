@@ -5,6 +5,7 @@ extends UIForm
 @onready var file_dialog: FileDialog = $FileDialog
 @onready var tile_texture_rect: TextureRect = %TileTexture
 
+var tile_type: BaseTileDefinition.Type
 var tile_name: String
 var tile_texture_path: String
 
@@ -19,7 +20,7 @@ func _on_load_image_pressed() -> void:
 
 
 func _on_create_pressed() -> void:
-	GlobalRefs.map_editor.register_tile(tile_name, tile_texture_path)
+	GlobalRefs.map_editor.register_tile(tile_name, tile_type, tile_texture_path)
 	close()
 
 
@@ -33,3 +34,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 func _on_input_name_text_changed(new_text: String) -> void:
 	tile_name = new_text
 	try_to_enable_create_button()
+
+
+func _on_type_option_item_selected(index: int) -> void:
+	tile_type = index as BaseTileDefinition.Type

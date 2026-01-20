@@ -2,11 +2,16 @@
 class_name BaseTileDefinition
 extends Resource
 
+enum Type { TERRAIN, DECORATION, PROP }
+
 @export var name: String
 
 var tile_source: int
 var atlas_coords: Vector2i 
 
+
+@abstract
+func get_type()-> Type
 
 func serialize()-> Dictionary:
 	var data := {}
@@ -18,5 +23,10 @@ func serialize()-> Dictionary:
 func deserialize(data: Dictionary):
 	name = data["name"]
 
-@abstract
-func get_type_str()-> String
+
+func get_type_str()-> String:
+	return (Type.keys()[get_type()] as String).to_lower() + "_tile"
+
+
+func get_export_path()-> String:
+	return OS.get_user_data_dir().path_join(MapEditor.EXPORT_PATH).path_join(get_type_str() + "s")
