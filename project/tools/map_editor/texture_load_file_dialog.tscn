@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://6g3m2aeikejd"]
+
+[node name="FileDialog" type="FileDialog"]
+title = "Open a File"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png;Image Files;image/png")
