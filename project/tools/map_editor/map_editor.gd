@@ -30,9 +30,7 @@ func create_export_file(tile_def: BaseTileDefinition, tile_texture_path: String)
 	Utils.make_path(path)
 
 	var file_name: String = tile_def.name + ".json"
-	var file := FileAccess.open(path.path_join(file_name), FileAccess.WRITE)
-	file.store_string(JSON.stringify(data))
-	file.close()
+	Utils.create_json_file(path.path_join(file_name), data)
 
 
 func upload_export_dir(path: String= OS.get_user_data_dir().path_join(EXPORT_PATH)):
@@ -67,7 +65,7 @@ func upload_export_file(file_path: String, json_path: String = ""):
 		if data.has("texture_path"):
 			texture_path = data["texture_path"]
 			# TODO
-			#Utils.remove_key_from_json_file(file_path, "texture_path")
+			Utils.remove_key_from_json_file(file_path, "texture_path")
 
 	var bytes := FileAccess.get_file_as_bytes(file_path)
 
