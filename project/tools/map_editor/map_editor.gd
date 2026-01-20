@@ -73,7 +73,9 @@ func upload_export_file(file_path: String, json_path: String = ""):
 
 	var http: UploadHTTPRequest = upload_request_scene.instantiate()
 	add_child(http)
-	var error = http.request_raw("http://onehundred.dev:8000/upload", headers, HTTPClient.METHOD_POST, bytes)
+	
+	# use IP to prevent CORS redirection issues in browser builds
+	var error = http.request_raw("http://212.227.166.210:8000/upload/", headers, HTTPClient.METHOD_POST, bytes)
 	if error != OK:
 		push_error("Http Request error ", error)
 		return
