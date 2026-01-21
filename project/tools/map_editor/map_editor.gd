@@ -85,6 +85,7 @@ func upload_export_file(file_path: String, json_path: String = ""):
 	var bytes := FileAccess.get_file_as_bytes(file_path)
 
 	var http: UploadHTTPRequest = upload_request_scene.instantiate()
+	http.file = file_path
 	add_child(http)
 	
 	# use IP to prevent CORS redirection issues in browser builds
