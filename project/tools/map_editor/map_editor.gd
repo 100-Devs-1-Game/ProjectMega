@@ -9,8 +9,8 @@ const EXPORT_PATH = "export"
 
 @onready var ui: MapEditorUI = $MapEditorUI
 
-@onready var tile_maps: Dictionary[BaseTileDefinition.Type, TileMapLayer] = {
-	BaseTileDefinition.Type.TERRAIN : terrain_tile_map
+@onready var tile_maps: Dictionary[BaseTileDefinition.Layer, TileMapLayer] = {
+	BaseTileDefinition.Layer.TERRAIN : terrain_tile_map
 }
 
 var new_tiles: Array[BaseTileDefinition]
@@ -22,19 +22,19 @@ func _ready() -> void:
 
 
 func place_tile(tile_pos: Vector2i, tile_def: BaseTileDefinition,
-	layer: BaseTileDefinition.Type = BaseTileDefinition.Type.TERRAIN
+	layer: BaseTileDefinition.Layer = BaseTileDefinition.Layer.TERRAIN
 ):
 	tile_maps[layer].set_cell(tile_pos, tile_def.tile_source, tile_def.atlas_coords)
 
 
-func remove_tile(tile_pos: Vector2i, layer: BaseTileDefinition.Type = BaseTileDefinition.Type.TERRAIN):
+func remove_tile(tile_pos: Vector2i, layer: BaseTileDefinition.Layer = BaseTileDefinition.Layer.TERRAIN):
 	tile_maps[layer].erase_cell(tile_pos)
 
 
-func register_tile(tile_name: String, type: BaseTileDefinition.Type, texture_path: String):
+func register_tile(tile_name: String, type: BaseTileDefinition.Layer, texture_path: String):
 	var tile_def: BaseTileDefinition
 	match type:
-		BaseTileDefinition.Type.TERRAIN:
+		BaseTileDefinition.Layer.TERRAIN:
 			tile_def = TerrainTileDefinition.new()
 	
 	tile_def.name = tile_name

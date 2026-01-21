@@ -4,5 +4,5 @@ extends BaseTileDefinition
 var walk_speed: float
 
 
-func get_type()-> Type:
-	return Type.TERRAIN
+func get_layer()-> Layer:
+	return Layer.TERRAIN

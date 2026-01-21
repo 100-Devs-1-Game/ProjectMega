@@ -5,7 +5,7 @@ extends UIForm
 @onready var file_dialog: FileDialog = $FileDialog
 @onready var tile_texture_rect: TextureRect = %TileTexture
 
-var tile_type: BaseTileDefinition.Type
+var tile_type: BaseTileDefinition.Layer
 var tile_name: String
 var tile_texture_path: String
 
@@ -37,4 +37,4 @@ func _on_input_name_text_changed(new_text: String) -> void:
 
 
 func _on_type_option_item_selected(index: int) -> void:
-	tile_type = index as BaseTileDefinition.Type
+	tile_type = index as BaseTileDefinition.Layer

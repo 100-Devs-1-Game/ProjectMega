@@ -4,9 +4,9 @@ class Row:
 	enum Type { PLACE, REMOVE }
 	var type: Type
 	var tile_pos: Vector2i
-	var layer: BaseTileDefinition.Type
+	var layer: BaseTileDefinition.Layer
 	
-	func _init(p_type: Type, pos: Vector2i, p_layer: BaseTileDefinition.Type):
+	func _init(p_type: Type, pos: Vector2i, p_layer: BaseTileDefinition.Layer):
 		type = p_type
 		tile_pos = pos
 		layer = p_layer
