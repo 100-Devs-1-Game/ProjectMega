@@ -7,6 +7,8 @@ const EXPORT_PATH = "export"
 
 @onready var terrain_tile_map: TileMapLayer = $Terrain
 
+@onready var ui: MapEditorUI = $MapEditorUI
+
 @onready var tile_maps: Dictionary[BaseTileDefinition.Type, TileMapLayer] = {
 	BaseTileDefinition.Type.TERRAIN : terrain_tile_map
 }
@@ -16,6 +18,7 @@ var new_tiles: Array[BaseTileDefinition]
 
 func _ready() -> void:
 	GlobalRefs.map_editor = self
+	TileSetCreator.fill_tile_set(terrain_tile_map.tile_set, ["terrain_tiles"])
 
 
 func register_tile(tile_name: String, type: BaseTileDefinition.Type, texture_path: String):
@@ -29,7 +32,7 @@ func register_tile(tile_name: String, type: BaseTileDefinition.Type, texture_pat
 	
 	var json_file: String = create_export_file(tile_def, texture_path)
 	TileSetCreator.add_source_tile(get_tilemap_for_tile_def(tile_def).tile_set, json_file, texture_path)
-
+	ui.enable_upload_button()
 
 func create_export_file(tile_def: BaseTileDefinition, tile_texture_path: String)-> String:
 	var data := tile_def.serialize()

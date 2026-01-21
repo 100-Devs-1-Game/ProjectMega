@@ -26,7 +26,9 @@ layout_mode = 2
 text = "Create Tile"
 
 [node name="UploadFiles" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+disabled = true
 text = "Upload Files"
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/CreateTile" to="." method="_on_create_tile_pressed"]
