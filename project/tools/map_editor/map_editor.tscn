@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3b7ma3isicp4"]
+[gd_scene load_steps=7 format=3 uid="uid://d3b7ma3isicp4"]
 
 [ext_resource type="Script" uid="uid://1bhrcuknpsip" path="res://tools/map_editor/map_editor.gd" id="1_5yjnp"]
 [ext_resource type="TileSet" uid="uid://ccn1o4p860i17" path="res://map/terrain_tile_set.tres" id="1_yhjo0"]
 [ext_resource type="PackedScene" uid="uid://diqbb31vnnkfs" path="res://tools/map_editor/map_editor_ui.tscn" id="3_mgawg"]
+[ext_resource type="Script" uid="uid://b5boqlhtuvgyh" path="res://tools/map_editor/state_machine/map_editor_state_machine.gd" id="4_hx1t1"]
 [ext_resource type="PackedScene" uid="uid://betfv7ehdpgxh" path="res://tools/map_editor/upload_http_request.tscn" id="4_mgawg"]
+[ext_resource type="Script" uid="uid://cwuasx0t22qgd" path="res://tools/map_editor/map_editor_edit_map_state.gd" id="5_rtlqd"]
 
 [node name="MapEditor" type="Node2D"]
 script = ExtResource("1_5yjnp")
@@ -11,6 +13,13 @@ upload_request_scene = ExtResource("4_mgawg")
 
 [node name="Terrain" type="TileMapLayer" parent="."]
 tile_set = ExtResource("1_yhjo0")
+
+[node name="State" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+script = ExtResource("4_hx1t1")
+current_state = NodePath("EditMap")
+
+[node name="EditMap" type="Node" parent="State"]
+script = ExtResource("5_rtlqd")
 
 [node name="MapEditorUI" parent="." instance=ExtResource("3_mgawg")]
 
