@@ -5,30 +5,26 @@ const EXPORT_PATH = "export"
 
 @export var upload_request_scene: PackedScene
 
-@onready var terrain_tile_map: TileMapLayer = $Terrain
-
+@onready var map: Map = $Map
 @onready var ui: MapEditorUI = $MapEditorUI
 
-@onready var tile_maps: Dictionary[BaseTileDefinition.Layer, TileMapLayer] = {
-	BaseTileDefinition.Layer.TERRAIN : terrain_tile_map
-}
+
 
 var new_tiles: Array[BaseTileDefinition]
 
 
 func _ready() -> void:
 	GlobalRefs.map_editor = self
-	TileSetCreator.fill_tile_set(terrain_tile_map.tile_set, ["terrain_tiles"])
 
 
 func place_tile(tile_pos: Vector2i, tile_def: BaseTileDefinition,
 	layer: BaseTileDefinition.Layer = BaseTileDefinition.Layer.TERRAIN
 ):
-	tile_maps[layer].set_cell(tile_pos, tile_def.tile_source, tile_def.atlas_coords)
+	map.set_tile(layer, tile_pos, tile_def.tile_source, tile_def.atlas_coords)
 
 
 func remove_tile(tile_pos: Vector2i, layer: BaseTileDefinition.Layer = BaseTileDefinition.Layer.TERRAIN):
-	tile_maps[layer].erase_cell(tile_pos)
+	map.erase_tile(layer, tile_pos)
 
 
 func register_tile(tile_name: String, type: BaseTileDefinition.Layer, texture_path: String):
@@ -41,7 +37,7 @@ func register_tile(tile_name: String, type: BaseTileDefinition.Layer, texture_pa
 	new_tiles.append(tile_def)
 	
 	var json_file: String = create_export_file(tile_def, texture_path)
-	TileSetCreator.add_source_tile(get_tilemap_for_tile_def(tile_def).tile_set, json_file, texture_path)
+	TileSetCreator.add_source_tile(map.get_tilemap_for_tile_def(tile_def).tile_set, json_file, texture_path)
 	ui.enable_upload_button()
 
 
@@ -109,9 +105,5 @@ func upload_export_file(file_path: String, json_path: String = ""):
 		upload_export_file(texture_path, file_path)
 
 
-func get_tilemap_for_tile_def(tile_def: BaseTileDefinition)-> TileMapLayer:
-	return tile_maps[tile_def.get_type()]
-
-
 func get_mouse_tile()-> Vector2i:
-	return terrain_tile_map.local_to_map(get_global_mouse_position())
+	return map.get_mouse_tile()
