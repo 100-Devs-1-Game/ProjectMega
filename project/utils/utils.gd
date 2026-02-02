@@ -7,7 +7,7 @@ static func create_json_file(file_name: String, data):
 	file.close()
 
 
-static func get_json_data_from_file(file_name: String)-> Dictionary:
+static func get_json_data_from_file(file_name: String)-> Variant:
 	if not FileAccess.file_exists(file_name):
 		push_error("File doesn't exist: ", file_name)
 		return {}
@@ -18,7 +18,7 @@ static func get_json_data_from_file(file_name: String)-> Dictionary:
 
 
 static func remove_key_from_json_file(file_name: String, key: String):
-	var data := get_json_data_from_file(file_name)
+	var data: Dictionary= get_json_data_from_file(file_name)
 	if not data.has(key):
 		push_error("Key %s doesn't exist in %s" % [ file_name, key ])
 		return

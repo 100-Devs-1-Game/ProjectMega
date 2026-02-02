@@ -63,7 +63,7 @@ func create_export_file(tile_def: BaseTileDefinition, tile_texture_path: String)
 
 
 func export_tile_changes():
-	var base_path = get_export_path().path_join("map").path_join("chunks")
+	var base_path = get_export_path().path_join("chunks")
 	Utils.make_path(base_path)
 	for chunk_coords in map.chunk_data.keys():
 		var file_name: String = "chunk_%d_%d.json" % [chunk_coords.x, chunk_coords.y]
@@ -107,16 +107,17 @@ func upload_export_file(file_path: String, json_path: String = ""):
 
 	var texture_path: String
 	if file_path.ends_with("json"):
-		var data := Utils.get_json_data_from_file(file_path)
-		if data.has("texture_path"):
-			texture_path = data["texture_path"]
-			# TODO
-			Utils.remove_key_from_json_file(file_path, "texture_path")
+		var data = Utils.get_json_data_from_file(file_path)
+		if data is Dictionary:
+			if data.has("texture_path"):
+				texture_path = data["texture_path"]
+				# TODO
+				Utils.remove_key_from_json_file(file_path, "texture_path")
 
 	var bytes := FileAccess.get_file_as_bytes(file_path)
 
 	var http: UploadHTTPRequest = upload_request_scene.instantiate()
-	http.file = file_path
+	http.file_path = file_path
 	add_child(http)
 	
 	# use IP to prevent CORS redirection issues in browser builds
@@ -134,4 +135,4 @@ func get_mouse_tile()-> Vector2i:
 
 
 static func get_export_path()-> String:
-	return OS.get_user_data_dir().path_join(MapEditor.EXPORT_PATH)
+	return OS.get_user_data_dir().path_join(MapEditor.EXPORT_PATH).path_join("map")

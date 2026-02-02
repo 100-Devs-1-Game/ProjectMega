@@ -7,7 +7,7 @@ var tile_lookup: Dictionary[Vector3i, BaseTileDefinition]
 
 
 func add_tile(json_file: String, source_id: int, atlas_coords: Vector2i = Vector2i.ZERO):
-	var data := Utils.get_json_data_from_file(json_file)
+	var data: Dictionary= Utils.get_json_data_from_file(json_file)
 	var layer: BaseTileDefinition.Layer = data["layer"]
 	var def: BaseTileDefinition= BaseTileDefinition.create_instance(layer)
 	def.deserialize(data)
