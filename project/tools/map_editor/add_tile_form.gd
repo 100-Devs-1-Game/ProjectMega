@@ -26,7 +26,7 @@ func _on_create_pressed() -> void:
 
 func _on_file_dialog_file_selected(path: String) -> void:
 	tile_texture_path = path
-	var texture = load(tile_texture_path)
+	var texture = Utils.load_image_from_absolute_path(path)
 	tile_texture_rect.texture = texture
 	try_to_enable_create_button()
 

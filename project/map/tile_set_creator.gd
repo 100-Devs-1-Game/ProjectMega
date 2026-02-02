@@ -25,7 +25,11 @@ static func add_source_tile(tile_set: TileSet, json_file: String, texture_path: 
 	assert(tile_set.tile_size.x == tile_set.tile_size.y)
 	var tile_size: int = tile_set.tile_size.x
 
-	var texture = load(texture_path)
+	var texture
+	if texture_path.begins_with("res:"):
+		texture = load(texture_path)
+	else:
+		texture = Utils.load_image_from_absolute_path(texture_path)
 	
 	var source := TileSetAtlasSource.new()
 	source.texture_region_size = Vector2i.ONE * tile_size

@@ -40,3 +40,13 @@ static func make_path(full_path: String):
 			if error != OK:
 				push_error("Can't create path %s, error %d" % [path, error])
 				return
+
+static func load_image_from_absolute_path(path: String)-> ImageTexture:
+	var file := FileAccess.open(path, FileAccess.READ)
+	if FileAccess.get_open_error() != OK:
+		push_error("Can't open file ", file)
+		return null
+	var img_buffer = file.get_buffer(file.get_length())
+	var img = Image.new()
+	img.load_png_from_buffer(img_buffer)
+	return ImageTexture.create_from_image(img)
