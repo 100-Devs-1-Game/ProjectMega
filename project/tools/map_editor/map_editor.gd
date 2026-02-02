@@ -94,7 +94,6 @@ func upload_export_file(file_path: String, json_path: String = ""):
 
 	var target_path : String = json_path.split(EXPORT_PATH + "/")[1]
 	target_path = target_path.rsplit("/", false, 1)[0]
-	target_path = path_join(target_path)
 	
 	var upload_file_name := json_path.get_file().get_basename() + "." + file_path.get_extension()
 	prints("Target path", target_path.path_join(upload_file_name))
