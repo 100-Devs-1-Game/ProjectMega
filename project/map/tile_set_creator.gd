@@ -1,6 +1,6 @@
 class_name TileSetCreator
 
-const ASSET_PATH = "res://assets/art/tiles/"
+const ASSET_PATH = "res://assets/art/map/tiles/"
 const DATA_PATH = "res://data/map/tiles/"
 
 

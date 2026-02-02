@@ -29,7 +29,7 @@ func get_layer_str()-> String:
 
 
 func get_export_path()-> String:
-	return MapEditor.get_export_path().path_join(get_layer_str())
+	return MapEditor.get_export_path().path_join("tiles").path_join(get_layer_str())
 
 
 static func create_instance(layer: Layer):

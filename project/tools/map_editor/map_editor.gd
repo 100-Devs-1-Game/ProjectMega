@@ -63,7 +63,7 @@ func create_export_file(tile_def: BaseTileDefinition, tile_texture_path: String)
 
 
 func export_tile_changes():
-	var base_path = get_export_path().path_join("chunks")
+	var base_path = get_export_path().path_join("chunks").path_join("changes")
 	Utils.make_path(base_path)
 	for chunk_coords in map.chunk_data.keys():
 		var file_name: String = "chunk_%d_%d.json" % [chunk_coords.x, chunk_coords.y]
