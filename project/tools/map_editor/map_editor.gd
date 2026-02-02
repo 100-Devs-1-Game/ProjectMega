@@ -3,6 +3,7 @@ extends Node2D
 
 const EXPORT_PATH = "export"
 
+@export var debug_skip_uploading: bool = false
 @export var upload_request_scene: PackedScene
 
 @onready var map: Map = $Map
@@ -21,10 +22,12 @@ func place_tile(tile_pos: Vector2i, tile_def: BaseTileDefinition,
 	layer: BaseTileDefinition.Layer = BaseTileDefinition.Layer.TERRAIN
 ):
 	map.set_tile(layer, tile_pos, tile_def.tile_source, tile_def.atlas_coords)
+	map.register_tile_change(TileChanges.Type.PLACE, layer, tile_pos, tile_def)
 
 
 func remove_tile(tile_pos: Vector2i, layer: BaseTileDefinition.Layer = BaseTileDefinition.Layer.TERRAIN):
 	map.erase_tile(layer, tile_pos)
+	map.register_tile_change(TileChanges.Type.REMOVE, layer, tile_pos)
 
 
 func register_tile(tile_name: String, type: BaseTileDefinition.Layer, texture_path: String):
@@ -41,6 +44,10 @@ func register_tile(tile_name: String, type: BaseTileDefinition.Layer, texture_pa
 	ui.enable_upload_button()
 
 
+func save() -> void:
+	export_tile_changes()
+
+
 func create_export_file(tile_def: BaseTileDefinition, tile_texture_path: String)-> String:
 	var data := tile_def.serialize()
 	data["texture_path"] = tile_texture_path
@@ -55,7 +62,24 @@ func create_export_file(tile_def: BaseTileDefinition, tile_texture_path: String)
 	return file_path
 
 
+func export_tile_changes():
+	var base_path = get_export_path().path_join("map").path_join("chunks")
+	Utils.make_path(base_path)
+	for chunk_coords in map.chunk_data.keys():
+		var file_name: String = "chunk_%d_%d.json" % [chunk_coords.x, chunk_coords.y]
+		var file := FileAccess.open(base_path.path_join(file_name), FileAccess.WRITE)
+		if FileAccess.get_open_error() != OK:
+			push_error("Can't open file ", base_path.path_join(file_name))
+			return
+		var chunk_data: MapChunkData = map.chunk_data[chunk_coords]
+		chunk_data.dump_changes(file)
+		file.close()
+
+
 func upload_export_dir(path: String= OS.get_user_data_dir().path_join(EXPORT_PATH)):
+	if debug_skip_uploading:
+		return
+
 	for file in DirAccess.get_files_at(path):
 		upload_export_file(path.path_join(file))
 
@@ -107,3 +131,7 @@ func upload_export_file(file_path: String, json_path: String = ""):
 
 func get_mouse_tile()-> Vector2i:
 	return map.get_mouse_tile()
+
+
+static func get_export_path()-> String:
+	return OS.get_user_data_dir().path_join(MapEditor.EXPORT_PATH)

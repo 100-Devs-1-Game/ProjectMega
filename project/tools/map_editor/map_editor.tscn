@@ -10,6 +10,7 @@
 
 [node name="MapEditor" type="Node2D"]
 script = ExtResource("1_5yjnp")
+debug_skip_uploading = true
 upload_request_scene = ExtResource("4_mgawg")
 
 [node name="Map" type="Node2D" parent="."]
@@ -27,4 +28,5 @@ script = ExtResource("5_rtlqd")
 
 [node name="MapEditorUI" parent="." instance=ExtResource("3_mgawg")]
 
+[connection signal="save" from="MapEditorUI" to="." method="save"]
 [connection signal="upload_files" from="MapEditorUI" to="." method="upload_export_dir"]

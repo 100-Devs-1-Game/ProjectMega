@@ -40,4 +40,4 @@ static func add_source_tile(tile_set: TileSet, json_file: String, texture_path: 
 		#var polygon: PackedVector2Array = tile_def.custom_collision_polygon if tile_def.custom_collision_polygon else collision_polygon
 		#tile_data.set_collision_polygon_points(0, 0, polygon)
 	
-	GameData.add_terrain_tile(json_file, tile_set.get_source_count() - 1)
+	GameData.add_tile(json_file, tile_set.get_source_count() - 1)

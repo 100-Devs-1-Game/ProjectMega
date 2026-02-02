@@ -12,7 +12,7 @@ var mouse_tile: Vector2i:
 var mouse_tile_changed := false
 
 func on_enter():
-	current_tile = GameData.terrain_tiles.values()[0]
+	current_tile = GameData.tiles[0].values()[0]
 
 
 func on_unhandled_input(event: InputEvent):

@@ -1,6 +1,7 @@
 class_name MapEditorUI
 extends CanvasLayer
 
+signal save
 signal upload_files
 
 @export var create_tile_form: PackedScene
@@ -19,3 +20,7 @@ func _on_create_tile_pressed() -> void:
 func _on_upload_files_pressed() -> void:
 	upload_files_button.disabled = true
 	upload_files.emit()
+
+
+func _on_save_pressed() -> void:
+	save.emit()

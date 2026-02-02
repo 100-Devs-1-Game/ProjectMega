@@ -1,4 +1,5 @@
 {
 	"name": "grass",
+	"layer": 0,
 	"walk_speed": 1.0
 }
