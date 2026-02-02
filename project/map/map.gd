@@ -30,7 +30,7 @@ func register_tile_change(type: TileChanges.Type, layer: BaseTileDefinition.Laye
 
 
 func get_tilemap_for_tile_def(tile_def: BaseTileDefinition)-> TileMapLayer:
-	return tile_maps[tile_def.get_type()]
+	return tile_maps[tile_def.get_layer()]
 
 
 func get_chunk_data_at_tile(tile_pos: Vector2)-> MapChunkData:
