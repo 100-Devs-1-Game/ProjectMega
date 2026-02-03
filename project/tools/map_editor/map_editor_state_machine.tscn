@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://clvuqagskyrhw"]
+
+[ext_resource type="Script" uid="uid://b5boqlhtuvgyh" path="res://tools/map_editor/state_machine/map_editor_state_machine.gd" id="1_0odq0"]
+[ext_resource type="Script" uid="uid://cwuasx0t22qgd" path="res://tools/map_editor/map_editor_edit_map_state.gd" id="2_l6m3q"]
+
+[node name="StateMachine" type="Node" node_paths=PackedStringArray("current_state")]
+script = ExtResource("1_0odq0")
+current_state = NodePath("EditMap")
+
+[node name="EditMap" type="Node" parent="."]
+script = ExtResource("2_l6m3q")
