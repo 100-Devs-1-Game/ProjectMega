@@ -23,7 +23,7 @@ func add_tile(json_file: String, source_id: int, atlas_coords: Vector2i = Vector
 	tile_lookup[Vector3i(source_id, atlas_coords.x, atlas_coords.y)] = def
 
 
-func get_tile(layer: BaseTileDefinition.Layer, tile_name: String)-> BaseTileDefinition:
+func get_tile_definition(layer: BaseTileDefinition.Layer, tile_name: String)-> BaseTileDefinition:
 	assert(tiles.has(int(layer)))
 	var tiles_dict: Dictionary = tiles[int(layer)]
 	assert(tiles_dict.has(tile_name))

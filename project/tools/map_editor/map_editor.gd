@@ -71,8 +71,8 @@ func export_tile_changes():
 		if FileAccess.get_open_error() != OK:
 			push_error("Can't open file ", base_path.path_join(file_name))
 			return
-		var chunk_data: MapChunkData = map.chunk_data[chunk_coords]
-		chunk_data.dump_changes(file)
+		var chunk: MapChunk = map.chunk_data[chunk_coords]
+		chunk.dump_changes(file)
 		file.close()
 
 
@@ -94,10 +94,10 @@ func upload_export_file(file_path: String, json_path: String = ""):
 
 	var target_path : String = json_path.split(EXPORT_PATH + "/")[1]
 	target_path = target_path.rsplit("/", false, 1)[0]
-	
+
 	var upload_file_name := json_path.get_file().get_basename() + "." + file_path.get_extension()
 	prints("Target path", target_path.path_join(upload_file_name))
-	
+
 	var headers := [
 		"Content-Type: application/" + ( "json" if file_path.ends_with("json") else "octet-stream" ),
 		"X-Filename: " + upload_file_name,

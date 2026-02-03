@@ -30,9 +30,8 @@ class Row:
 			data["type"],
 			tile_layer,
 			Vector2i(tile_pos_arr[0], tile_pos_arr[1]),
-			GameData.get_tile_defintion(tile_layer, data["name"]) if data.has("name") else null
+			GameData.get_tile_definition(tile_layer, data["tile_def"]) if data.has("tile_def") else null
 		)
-		
 	
 	func same_tile_as(other_row: Row)-> bool:
 		return tile_pos == other_row.tile_pos and layer == other_row.layer
