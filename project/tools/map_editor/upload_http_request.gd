@@ -7,5 +7,7 @@ func _on_http_request_request_completed(result: int, _response_code: int, _heade
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_error("HTTP request failed ", result)
 	assert(not file_path.is_empty())
-	DirAccess.remove_absolute(file_path)
+	if file_path.contains(OS.get_user_data_dir()):
+		prints("Deleting", file_path)
+		DirAccess.remove_absolute(file_path)
 	queue_free()
