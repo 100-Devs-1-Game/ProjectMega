@@ -71,8 +71,9 @@ static func does_url_exist(url: String, node: Node)-> bool:
 		return false
 
 	var result: Array = await http_request.request_completed
-	node.remove_child(http_request)
+	http_request.queue_free()
+	
 	assert(result.size() == 4)
 	prints("Does urls exist", url, result[1])
-	return int(result[1]) != 404
+	return int(result[0]) == OK and int(result[1]) != 404
 	
