@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://biy2b4g2oh4o6"]
+[gd_scene load_steps=5 format=3 uid="uid://biy2b4g2oh4o6"]
 
 [ext_resource type="Script" uid="uid://i16t6rcalcrg" path="res://tools/map_editor/add_tile_form.gd" id="1_du5dt"]
 [ext_resource type="PackedScene" uid="uid://6g3m2aeikejd" path="res://tools/map_editor/texture_load_file_dialog.tscn" id="2_oivoo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oivoo"]
+font_size = 14
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_du5dt"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -59,6 +62,19 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 placeholder_text = "tile_name"
 max_length = 18
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="NameHint" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+text = "empty name"
+label_settings = SubResource("LabelSettings_oivoo")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="TileTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true

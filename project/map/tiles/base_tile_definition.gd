@@ -25,11 +25,15 @@ func deserialize(data: Dictionary):
 	
 
 func get_layer_str()-> String:
-	return (Layer.keys()[get_layer()] as String).to_lower() + "_tiles"
+	return get_layer_str_static(get_layer())
 
 
 func get_export_path()-> String:
 	return MapEditor.get_export_path().path_join("tiles").path_join(get_layer_str())
+
+
+static func get_layer_str_static(layer: Layer)-> String:
+	return (Layer.keys()[layer] as String).to_lower() + "_tiles"	
 
 
 static func create_instance(layer: Layer):

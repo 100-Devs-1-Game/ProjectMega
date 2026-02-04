@@ -1,8 +1,5 @@
 class_name TileSetCreator
 
-const ASSET_PATH = "res://assets/art/map/tiles/"
-const DATA_PATH = "res://data/map/tiles/"
-
 
 static func fill_tile_set(tile_set: TileSet, paths: Array[String]):
 	assert(tile_set.tile_size.x == tile_set.tile_size.y)
@@ -14,10 +11,10 @@ static func fill_tile_set(tile_set: TileSet, paths: Array[String]):
 		collision_polygon[i] = collision_polygon[i] - Vector2.ONE * tile_size / 2
 
 	for path in paths:
-		for res in ResourceLoader.list_directory(ASSET_PATH + path):
-			var texture_path: String = ASSET_PATH + path + "/" + res
+		for res in ResourceLoader.list_directory(GameData.ASSET_PATH + path):
+			var texture_path: String = GameData.ASSET_PATH + path + "/" + res
 			var tile_name := res.get_basename()
-			var json_file: String = DATA_PATH + path + "/" + tile_name + ".json"
+			var json_file: String = GameData.DATA_PATH + path + "/" + tile_name + ".json"
 			add_source_tile(tile_set, json_file, texture_path)
 
 

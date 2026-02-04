@@ -1,5 +1,6 @@
 class_name Utils
 
+const REPOSITORY_URL = "100-Devs-1-Game/ProjectMega"
 
 static func create_json_file(file_name: String, data):
 	var file := FileAccess.open(file_name, FileAccess.WRITE)
@@ -50,3 +51,28 @@ static func load_image_from_absolute_path(path: String)-> ImageTexture:
 	var img = Image.new()
 	img.load_png_from_buffer(img_buffer)
 	return ImageTexture.create_from_image(img)
+
+
+static func does_repository_file_exist(file_path: String, node: Node, path_prefix: String = "project")-> bool:
+	file_path = path_prefix.path_join(file_path)
+	var repo_url := "https://raw.githubusercontent.com/" + REPOSITORY_URL
+	var url: String = repo_url.path_join("refs/heads/main").path_join(file_path)
+	var url_exists: bool = await does_url_exist(url, node)
+	return url_exists
+
+
+static func does_url_exist(url: String, node: Node)-> bool:
+	var http_request = HTTPRequest.new()
+	node.add_child(http_request)
+
+	var error = http_request.request(url)
+	if error != OK:
+		push_error("An error occurred in the HTTP request.")
+		return false
+
+	var result: Array = await http_request.request_completed
+	node.remove_child(http_request)
+	assert(result.size() == 4)
+	prints("Does urls exist", url, result[1])
+	return int(result[1]) != 404
+	

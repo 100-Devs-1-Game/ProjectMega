@@ -1,5 +1,8 @@
 extends Node
 
+const ASSET_PATH = "res://assets/art/map/tiles/"
+const DATA_PATH = "res://data/map/tiles/"
+
 var tiles: Dictionary # Dictionary[BaseTileDefinition.Layer, Dictionary[String, BaseTileDefinition]]
 
 # Vector3i( source_id, atlas coords.x, atlas_coords.y ) -> tile name
@@ -26,5 +29,6 @@ func add_tile(json_file: String, source_id: int, atlas_coords: Vector2i = Vector
 func get_tile_definition(layer: BaseTileDefinition.Layer, tile_name: String)-> BaseTileDefinition:
 	assert(tiles.has(int(layer)))
 	var tiles_dict: Dictionary = tiles[int(layer)]
-	assert(tiles_dict.has(tile_name))
+	if not tiles_dict.has(tile_name):
+		return null
 	return tiles_dict[tile_name]
