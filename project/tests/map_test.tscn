@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bjb787qugqq2h"]
 
-[ext_resource type="Script" uid="uid://bcolhfyhjtiw2" path="res://test/map_test.gd" id="1_joy16"]
+[ext_resource type="Script" uid="uid://bcolhfyhjtiw2" path="res://tests/map_test.gd" id="1_joy16"]
 [ext_resource type="TileSet" uid="uid://ccn1o4p860i17" path="res://map/terrain_tile_set.tres" id="2_fo6rm"]
 
 [node name="MapTest" type="Node2D"]
