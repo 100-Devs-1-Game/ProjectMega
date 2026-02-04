@@ -9,3 +9,4 @@ current_state = NodePath("EditMap")
 
 [node name="EditMap" type="Node" parent="."]
 script = ExtResource("2_l6m3q")
+pan_speed = 500.0

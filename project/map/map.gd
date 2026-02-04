@@ -8,6 +8,8 @@ const CHUNK_CHANGES_PATH = "res://data/map/chunks/changes/"
 @onready var tile_maps: Dictionary[BaseTileDefinition.Layer, TileMapLayer] = {
 	BaseTileDefinition.Layer.TERRAIN : terrain_tile_map
 }
+@onready var camera: Camera2D = $Camera2D
+
 
 var chunks: Dictionary[Vector2i, MapChunk]
 

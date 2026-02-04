@@ -8,3 +8,5 @@ script = ExtResource("1_a0dt8")
 
 [node name="Terrain" type="TileMapLayer" parent="."]
 tile_set = ExtResource("2_4hjbm")
+
+[node name="Camera2D" type="Camera2D" parent="."]
