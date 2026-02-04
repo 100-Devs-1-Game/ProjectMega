@@ -16,6 +16,9 @@ var new_tiles: Array[BaseTileDefinition]
 
 func _ready() -> void:
 	GlobalRefs.map_editor = self
+	
+	ui.save.connect(save)
+	ui.upload_files.connect(upload_export_dir)
 
 
 func place_tile(tile_pos: Vector2i, tile_def: BaseTileDefinition,
