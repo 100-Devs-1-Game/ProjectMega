@@ -153,4 +153,4 @@ static func get_export_path()-> String:
 
 
 static func get_temp_path(batch_id: int)-> String:
-	return OS.get_user_data_dir().path_join(MapEditor.TEMP_PATH).path_join("batch_" + str(batch_id)).path_join("map")
+	return OS.get_user_data_dir().path_join(MapEditor.TEMP_PATH).path_join("batch_" + str(batch_id))
