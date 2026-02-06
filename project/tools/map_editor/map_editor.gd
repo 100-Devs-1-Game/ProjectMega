@@ -68,13 +68,13 @@ func create_export_file(tile_def: BaseTileDefinition, tile_texture_path: String)
 func export_tile_changes():
 	var base_path = get_export_path().path_join("chunks").path_join("changes")
 	Utils.make_path(base_path)
-	for chunk_coords in map.chunk_data.keys():
+	for chunk_coords in map.chunks.keys():
 		var file_name: String = "chunk_%d_%d.json" % [chunk_coords.x, chunk_coords.y]
 		var file := FileAccess.open(base_path.path_join(file_name), FileAccess.WRITE)
 		if FileAccess.get_open_error() != OK:
 			push_error("Can't open file ", base_path.path_join(file_name))
 			return
-		var chunk: MapChunk = map.chunk_data[chunk_coords]
+		var chunk: MapChunk = map.chunks[chunk_coords]
 		chunk.dump_changes(file)
 		file.close()
 
@@ -132,16 +132,16 @@ func upload_export_file(file_path: String, json_path: String = ""):
 
 	var result = await http.request_completed
 	if result[0] == HTTPRequest.RESULT_SUCCESS:
-		var batch_id: int = int(result[3]["batch_id"])
 		if file_path.ends_with("json"):
+			prints("Result", result)
+			var response = JSON.parse_string(result[3].get_string_from_utf8())
+			var batch_id: int = response["batch_id"]
 			if texture_path:
 				Utils.add_value_to_json_file(file_path, "texture_path", texture_path)
 			var temp_file_path: String = get_temp_path(batch_id).path_join(target_path)
 			Utils.make_path(temp_file_path)
 			prints("Copy to temp", temp_file_path)
 			DirAccess.copy_absolute(file_path, temp_file_path.path_join(upload_file_name))
-			
-
 
 
 func get_mouse_tile()-> Vector2i:
