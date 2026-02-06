@@ -2,6 +2,7 @@ class_name MapEditor
 extends Node2D
 
 const EXPORT_PATH = "export"
+const TEMP_PATH = "temp"
 
 @export var debug_skip_uploading: bool = false
 @export var upload_request_scene: PackedScene
@@ -9,9 +10,8 @@ const EXPORT_PATH = "export"
 @onready var map: Map = $Map
 @onready var ui: MapEditorUI = $MapEditorUI
 
-
-
 var new_tiles: Array[BaseTileDefinition]
+
 
 
 func _ready() -> void:
@@ -113,7 +113,6 @@ func upload_export_file(file_path: String, json_path: String = ""):
 		if data is Dictionary:
 			if data.has("texture_path"):
 				texture_path = data["texture_path"]
-				# TODO
 				Utils.remove_key_from_json_file(file_path, "texture_path")
 
 	var bytes := FileAccess.get_file_as_bytes(file_path)
@@ -131,6 +130,19 @@ func upload_export_file(file_path: String, json_path: String = ""):
 	if texture_path:
 		upload_export_file(texture_path, file_path)
 
+	var result = await http.request_completed
+	if result[0] == HTTPRequest.RESULT_SUCCESS:
+		var batch_id: int = int(result[3]["batch_id"])
+		if file_path.ends_with("json"):
+			if texture_path:
+				Utils.add_value_to_json_file(file_path, "texture_path", texture_path)
+			var temp_file_path: String = get_temp_path(batch_id).path_join(target_path)
+			Utils.make_path(temp_file_path)
+			prints("Copy to temp", temp_file_path)
+			DirAccess.copy_absolute(file_path, temp_file_path.path_join(upload_file_name))
+			
+
+
 
 func get_mouse_tile()-> Vector2i:
 	return map.get_mouse_tile()
@@ -138,3 +150,7 @@ func get_mouse_tile()-> Vector2i:
 
 static func get_export_path()-> String:
 	return OS.get_user_data_dir().path_join(MapEditor.EXPORT_PATH).path_join("map")
+
+
+static func get_temp_path(batch_id: int)-> String:
+	return OS.get_user_data_dir().path_join(MapEditor.TEMP_PATH).path_join("batch_" + str(batch_id)).path_join("map")

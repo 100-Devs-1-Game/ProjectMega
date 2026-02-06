@@ -18,8 +18,14 @@ static func get_json_data_from_file(file_name: String)-> Variant:
 	return JSON.parse_string(text)
 
 
-static func remove_key_from_json_file(file_name: String, key: String):
+static func add_value_to_json_file(file_name: String, key: String, value: Variant):
 	var data: Dictionary= get_json_data_from_file(file_name)
+	data[key] = value
+	create_json_file(file_name, data)
+
+
+static func remove_key_from_json_file(file_name: String, key: String):
+	var data: Dictionary = get_json_data_from_file(file_name)
 	if not data.has(key):
 		push_error("Key %s doesn't exist in %s" % [ file_name, key ])
 		return

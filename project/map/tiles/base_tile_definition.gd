@@ -28,8 +28,12 @@ func get_layer_str()-> String:
 	return get_layer_str_static(get_layer())
 
 
+func get_tile_path()-> String:
+	return ("tiles").path_join(get_layer_str())
+
+
 func get_export_path()-> String:
-	return MapEditor.get_export_path().path_join("tiles").path_join(get_layer_str())
+	return MapEditor.get_export_path().path_join(get_tile_path())
 
 
 static func get_layer_str_static(layer: Layer)-> String:
