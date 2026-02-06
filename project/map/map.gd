@@ -82,4 +82,5 @@ func get_mouse_tile()-> Vector2i:
 
 
 static func get_chunk_coords(tile_pos: Vector2i)-> Vector2i:
-	return Vector2(tile_pos / CHUNK_SIZE).floor()
+	var tile_posv2 := Vector2(tile_pos)
+	return Vector2(tile_posv2 / CHUNK_SIZE).floor()
