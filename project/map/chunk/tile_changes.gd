@@ -38,21 +38,13 @@ class Row:
 
 
 var rows: Array[Row]
-var dirty_idx: int = -1
+var dirty_idx: int = 0
 
 
 
 func add_row(new_row: Row, dirty: bool = true):
-	if dirty and dirty_idx == -1:
+	if not dirty:
 		dirty_idx = rows.size()
-
-	# TODO make sure the following code is correct before uncommenting again
-	#
-	#for row in rows.duplicate():
-		#if row.same_tile_as(new_row):
-			#if rows.find(row) < dirty_idx:
-				#dirty_idx -= 1
-			#rows.erase(row)
 
 	rows.append(new_row)
 
@@ -66,4 +58,4 @@ func get_dirty_rows()-> Array[Row]:
 
 
 func mark_all_clean():
-	dirty_idx = -1
+	dirty_idx = rows.size()

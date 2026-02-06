@@ -11,7 +11,7 @@ func _init(p_coords: Vector2i):
 
 func deserialize_changes(arr: Array):
 	for item in arr:
-		changes.add_row(TileChanges.Row.deserialize(item))
+		changes.add_row(TileChanges.Row.deserialize(item), false)
 	
 	
 func dump_changes(file: FileAccess):
