@@ -36,12 +36,9 @@ func register_tile_change(type: TileChanges.Type, layer: BaseTileDefinition.Laye
 
 
 func load_chunks():
-	var paths: Array[String] = [ 
-		CHUNK_CHANGES_PATH,
-		MapEditor.get_export_chunk_changes_path()
-	]
-	
+	var paths: Array[String] = [ CHUNK_CHANGES_PATH ]
 	paths.append_array(MapEditor.get_temp_chunk_changes_paths())
+	paths.append(MapEditor.get_export_chunk_changes_path())
 	
 	for path in paths:
 		for res in ResourceLoader.list_directory(path):
