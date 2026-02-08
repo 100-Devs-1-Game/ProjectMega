@@ -24,6 +24,7 @@ func set_tile(layer: BaseTileDefinition.Layer, tile_pos: Vector2i,
 ):
 	tile_maps[layer].set_cell(tile_pos, source, atlas_coords)
 
+
 func erase_tile(layer: BaseTileDefinition.Layer, tile_pos: Vector2i):
 	tile_maps[layer].erase_cell(tile_pos)
 
@@ -34,16 +35,19 @@ func register_tile_change(type: TileChanges.Type, layer: BaseTileDefinition.Laye
 
 
 func load_chunks():
-	for res in ResourceLoader.list_directory(CHUNK_CHANGES_PATH):
-		var file_path: String = CHUNK_CHANGES_PATH + res
-		var file_name := res.get_basename()
-		var data = JSON.parse_string(FileAccess.get_file_as_string(file_path))
+	var paths: Array[String] = [ CHUNK_CHANGES_PATH, MapEditor.get_export_chunk_changes_path() ]
+	
+	for path in paths:
+		for res in ResourceLoader.list_directory(path):
+			var file_path: String = path.path_join(res)
+			var file_name := res.get_basename()
+			var data = JSON.parse_string(FileAccess.get_file_as_string(file_path))
 
-		var split_name := file_name.split("_")
-		var chunk_coords := Vector2i(int(split_name[1]), int(split_name[2]))
-		var chunk := get_chunk(chunk_coords)
-		chunk.deserialize_changes(data)
-		render_tile_changes(chunk)
+			var split_name := file_name.split("_")
+			var chunk_coords := Vector2i(int(split_name[1]), int(split_name[2]))
+			var chunk := get_chunk(chunk_coords)
+			chunk.deserialize_changes(data)
+			render_tile_changes(chunk)
 
 
 func render_tile_changes(chunk: MapChunk):
