@@ -59,6 +59,21 @@ static func make_path(full_path: String):
 				return
 
 
+static func remove_dir_recursive(directory: String):
+	var error
+	for dir_name in DirAccess.get_directories_at(directory):
+		remove_dir_recursive(directory.path_join(dir_name))
+	for file_name in DirAccess.get_files_at(directory):
+		var rm_dir := directory.path_join(file_name)
+		error = DirAccess.remove_absolute(rm_dir)
+		if error != OK:
+			push_error("Error %d removing directory %s" % [ error, rm_dir ]) 
+
+	error = DirAccess.remove_absolute(directory)
+	if error != OK:
+		push_error("Error %d removing parent directory %s" % [ error, directory ]) 
+
+
 static func load_image_from_absolute_path(path: String)-> ImageTexture:
 	var file := FileAccess.open(path, FileAccess.READ)
 	if FileAccess.get_open_error() != OK:
@@ -93,4 +108,3 @@ static func does_url_exist(url: String, node: Node)-> bool:
 	assert(result.size() == 4)
 	prints("Does urls exist", url, result[1])
 	return int(result[0]) == OK and int(result[1]) != 404
-	

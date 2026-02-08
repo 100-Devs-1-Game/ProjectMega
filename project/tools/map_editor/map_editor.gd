@@ -33,9 +33,9 @@ func load_build_info():
 func remove_temp_files():
 	for batch_dir in ResourceLoader.list_directory(get_base_temp_path()):
 		var batch_id: int = int(batch_dir.split("_")[1])
-		if batch_id <= last_pr_batch_id:
-			prints("Remove temp directory", batch_dir)
-			DirAccess.remove_absolute(get_base_temp_path().path_join(batch_dir))
+		if batch_id < last_pr_batch_id:
+			prints("Remove temp directory", get_base_temp_path().path_join(batch_dir))
+			Utils.remove_dir_recursive(get_base_temp_path().path_join(batch_dir))
 
 
 func place_tile(tile_pos: Vector2i, tile_def: BaseTileDefinition,
