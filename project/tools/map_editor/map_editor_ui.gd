@@ -24,3 +24,4 @@ func _on_upload_files_pressed() -> void:
 
 func _on_save_pressed() -> void:
 	save.emit()
+	upload_files_button.disabled = false
