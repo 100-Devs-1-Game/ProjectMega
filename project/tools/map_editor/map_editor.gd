@@ -3,6 +3,7 @@ extends Node2D
 
 const EXPORT_PATH = "export"
 const TEMP_PATH = "temp"
+const BUILD_INFO_FILE_PATH = "res://data/build_info.json"
 
 @export var debug_skip_uploading: bool = false
 @export var upload_request_scene: PackedScene
@@ -10,15 +11,31 @@ const TEMP_PATH = "temp"
 @onready var map: Map = $Map
 @onready var ui: MapEditorUI = $MapEditorUI
 
+var last_pr_batch_id: int
 var new_tiles: Array[BaseTileDefinition]
 
 
 
 func _ready() -> void:
 	GlobalRefs.map_editor = self
+	load_build_info()
+	remove_temp_files()
 	
 	ui.save.connect(save)
 	ui.upload_files.connect(upload_export_dir)
+
+
+func load_build_info():
+	var data: Dictionary = Utils.get_json_data_from_file(BUILD_INFO_FILE_PATH)
+	last_pr_batch_id = data.get("last_pr_batch_id", -1)
+
+
+func remove_temp_files():
+	for batch_dir in ResourceLoader.list_directory(get_base_temp_path()):
+		var batch_id: int = int(batch_dir.split("_")[1])
+		if batch_id <= last_pr_batch_id:
+			print("Remove temp directory", batch_dir)
+			DirAccess.remove_absolute(get_base_temp_path().path_join(batch_dir))
 
 
 func place_tile(tile_pos: Vector2i, tile_def: BaseTileDefinition,
@@ -156,5 +173,17 @@ static func get_export_chunk_changes_path()-> String:
 	return get_export_path().path_join("chunks").path_join("changes")
 
 
+static func get_base_temp_path()-> String:
+	return OS.get_user_data_dir().path_join(MapEditor.TEMP_PATH)
+
+
 static func get_temp_path(batch_id: int)-> String:
-	return OS.get_user_data_dir().path_join(MapEditor.TEMP_PATH).path_join("batch_" + str(batch_id))
+	return get_base_temp_path().path_join("batch_" + str(batch_id))
+
+
+static func get_temp_chunk_changes_paths()-> Array[String]:
+	var result: Array[String]
+	for batch_dir in ResourceLoader.list_directory(get_base_temp_path()):
+		var full_batch_dir: String = get_base_temp_path().path_join(batch_dir)
+		result.append(full_batch_dir.path_join("map").path_join("chunks").path_join("changes"))
+	return result

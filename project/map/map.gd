@@ -15,6 +15,7 @@ var chunks: Dictionary[Vector2i, MapChunk]
 
 
 func _ready() -> void:
+	await get_parent().ready
 	TileSetCreator.fill_tile_set(terrain_tile_map.tile_set, ["terrain_tiles"])
 	load_chunks()
 
@@ -35,7 +36,12 @@ func register_tile_change(type: TileChanges.Type, layer: BaseTileDefinition.Laye
 
 
 func load_chunks():
-	var paths: Array[String] = [ CHUNK_CHANGES_PATH, MapEditor.get_export_chunk_changes_path() ]
+	var paths: Array[String] = [ 
+		CHUNK_CHANGES_PATH,
+		MapEditor.get_export_chunk_changes_path()
+	]
+	
+	paths.append_array(MapEditor.get_temp_chunk_changes_paths())
 	
 	for path in paths:
 		for res in ResourceLoader.list_directory(path):
