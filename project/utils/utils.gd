@@ -34,6 +34,16 @@ static func remove_key_from_json_file(file_name: String, key: String):
 	create_json_file(file_name, data)
 
 
+static func merge_json_files(from_file: String, target_file: String)-> bool:
+	var from_data = get_json_data_from_file(from_file)
+	var target_data = get_json_data_from_file(target_file)
+	if from_data is Array and target_data is Array:
+		(from_data as Array).append_array(target_data)
+		create_json_file(target_file, from_data)
+		return true
+	return false
+
+
 static func make_path(full_path: String):
 	var rest_path := full_path.split("/")
 	var path := rest_path[0]
@@ -47,6 +57,7 @@ static func make_path(full_path: String):
 			if error != OK:
 				push_error("Can't create path %s, error %d" % [path, error])
 				return
+
 
 static func load_image_from_absolute_path(path: String)-> ImageTexture:
 	var file := FileAccess.open(path, FileAccess.READ)

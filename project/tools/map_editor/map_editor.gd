@@ -34,7 +34,7 @@ func remove_temp_files():
 	for batch_dir in ResourceLoader.list_directory(get_base_temp_path()):
 		var batch_id: int = int(batch_dir.split("_")[1])
 		if batch_id <= last_pr_batch_id:
-			print("Remove temp directory", batch_dir)
+			prints("Remove temp directory", batch_dir)
 			DirAccess.remove_absolute(get_base_temp_path().path_join(batch_dir))
 
 
@@ -150,16 +150,24 @@ func upload_export_file(file_path: String, json_path: String = ""):
 	var result = await http.request_completed
 	if result[0] == HTTPRequest.RESULT_SUCCESS:
 		if file_path.ends_with("json"):
-			prints("Result", result)
+			prints("Result", result[0], result[1])
 			var response = JSON.parse_string(result[3].get_string_from_utf8())
 			var batch_id: int = response["batch_id"]
 			if texture_path:
 				Utils.add_value_to_json_file(file_path, "texture_path", texture_path)
 			var temp_file_path: String = get_temp_path(batch_id).path_join(target_path)
 			Utils.make_path(temp_file_path)
-			prints("Copy to temp", temp_file_path)
-			DirAccess.copy_absolute(file_path, temp_file_path.path_join(upload_file_name))
-
+			temp_file_path = temp_file_path.path_join(upload_file_name)
+			
+			var merged := false
+			if FileAccess.file_exists(temp_file_path):
+				merged = Utils.merge_json_files(file_path, temp_file_path)
+			if not merged:
+				DirAccess.copy_absolute(file_path, temp_file_path)
+				prints("Copy to temp", temp_file_path)
+			else:
+				prints("Merge with temp", temp_file_path)
+				
 
 func get_mouse_tile()-> Vector2i:
 	return map.get_mouse_tile()
